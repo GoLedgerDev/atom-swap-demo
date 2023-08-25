@@ -101,3 +101,12 @@ docker-compose -f docker/docker-compose-nodes.yaml up -d
 echo "============================="
 echo "Network started successfully!"
 echo "============================="
+
+
+echo ""
+echo ""
+echo "Deploying contract..."
+sleep 5
+
+cd contracts
+truffle migrate --network development

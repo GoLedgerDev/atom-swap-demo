@@ -6,3 +6,7 @@ besu/node/besu-2/data
 besu/node/besu-3/data
 
 besu/genesis
+
+besu/contracts/node_modules
+
+besu/contracts/build/contracts
