@@ -8,6 +8,12 @@ if ! [ -x "$(command -v besu)" ]; then
   exit 1
 fi
 
+# Check if truffle is installed
+if ! [ -x "$(command -v besu)" ]; then
+  echo "Error: truffle is not installed. Run: npm install -g truffle" >&2
+  exit 1
+fi
+
 echo "Cleaning up previous data"
 
 # Clean up containers
@@ -105,8 +111,19 @@ echo "============================="
 
 echo ""
 echo ""
-echo "Deploying contract..."
+echo "Running npm install..."
+cd contracts
+npm install
 sleep 5
 
-cd contracts
-truffle migrate --network development
+echo "Deploying contract..."
+
+truffle migrate --f 1 --to 1 --network development
+
+# Fetch contract address
+export CONTRACT_ADDRESS=$(cat build/contracts/GoLedgerToken.json | jq -r '.networks | to_entries | .[0].value.address')
+echo "Contract address: $CONTRACT_ADDRESS"
+
+sed "s/<TOKEN_CONTRACT_ADDRESS>/$CONTRACT_ADDRESS/g" migrations/templates/2_deploy_contract.js > migrations/2_deploy_contract.js
+
+truffle migrate --f 2 --to 2 --network development
