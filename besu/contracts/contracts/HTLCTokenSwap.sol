@@ -71,7 +71,7 @@ contract HTLCTokenSwap {
         _hash = keccak256( abi.encodePacked(_secret));
     }
 
-    function newSwap( address payable _recipient, bytes32 _hashlock, uint256 _delay, uint256 _amount) public  payable returns(uint256) {
+    function newSwap(address payable _recipient, bytes32 _hashlock, uint256 _delay, uint256 _amount) public  payable returns(uint256) {
         //create a swap ID which is expected to be unique
         uint256 _timelock = block.timestamp + _delay;
 
