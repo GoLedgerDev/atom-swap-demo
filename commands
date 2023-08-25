@@ -1,0 +1,8 @@
+let token_instance = await GoLedgerToken.deployed()
+let accounts = await web3.eth.getAccounts()
+let result = await token_instance.balanceOf(accounts[0])
+result = await token_instance.approve("0xF12b5dd4EAD5F743C6BaA640B0216200e89B60Da", 70)
+result.toNumber()
+
+let htlc_instance = await HTLCTokenSwap.deployed()
+let result = await htlc_instance.newSwap("0xf17f52151EbEF6C7334FAD080c5704D77216b732", "0xd8438674e145c2149c4a0afc8ef0664c13b22ce92ff01e8019f9a954df0011e9", 1000000000, 70)

@@ -1,0 +1,13 @@
+node_modules
+
+fabric/crypto-config
+fabric/channel-artifacts
+fabric/ca
+chaincode/vendor/*
+ccapi/vendor/*
+token-cc.tar.gz
+package-lock.json
+
+.DS_Store
+
+tmp

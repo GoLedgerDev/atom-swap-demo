@@ -10,3 +10,17 @@ besu/genesis
 besu/contracts/node_modules
 
 besu/contracts/build/contracts
+
+
+# fabric
+
+fabric/fabric/crypto-config
+fabric/fabric/channel-artifacts
+fabric/fabric/ca
+fabric/chaincode/vendor/*
+fabric/ccapi/vendor/*
+fabric/token-cc.tar.gz
+
+.DS_Store
+
+tmp
