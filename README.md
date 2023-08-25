@@ -27,9 +27,13 @@ docker logs besu-node-0 -f
 
 # Fabric
 
+## Fabric prequisites
+
+## Fabric setup
+
 # HTLC Demo
 
-## Setup accounts for the demo
+## Setup Besu accounts for the demo
 To setup the accounts we will use Truffle to transfer GLDR from the GoLedgerToken contract to Alice's account. To do that, run the following commands from the `besu/contracts` directory:
 ```bash
 truffle console --config truffle-config.js
@@ -43,4 +47,17 @@ This will transfer 100 GLDR tokens to Alice's account. You can check the balance
 ```javascript
 let balance = await token_instance.balanceOf("0xfe3b557e8fb62b89f4916b721be55ceb828dbd73") 
 balance.toNumber()
+```
+
+## Setup Fabric accounts for the demo
+
+Generate the key pair for Bob and Alice:
+```
+openssl genrsa -out bob.key 2048
+openssl rsa -in bob.key -pubout | base64 | tr -d '\n' > bob.pub
+```
+
+Sign message with Bob's private key:
+```
+echo -n "{"amount":"100","to":"me"}" | openssl dgst -sha256 -sign bob.key -hex
 ```

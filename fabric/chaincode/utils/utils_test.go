@@ -1,0 +1,35 @@
+package utils
+
+import "testing"
+
+func TestIsValidPublicKey(t *testing.T) {
+	_, err := CheckPublicKey("invalid_address")
+	if err == nil {
+		t.Errorf("isValidEthereumAddress() = true, want false")
+	}
+
+	_, err = CheckPublicKey("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFySHR5bW9jZnY4QmNmUWgwZ2xacwpNdnF3bzNWUUVEZzI5bmhuRjJJTitFV2RTWE5oblRsd3h0MFZTSExMV2c5OCtFbUtaTUFFZ0tHRExUd2FaMXh5Cmh1QTIzTFF3QlgvQ08rWjVyNDBuQ2U3QTk1NTFrNTJGL3ZKdVVrUFJHMUQwNEhYN0hMYkhYaVBoRlM5eDk4c3MKZHljY0hnejBqbU1DMENWN0tUR3N5L3VKZlFPV1diYUM2MXZIK0RKOURqeGMxMVdKY3pFaDFNTlYzVFFZS1pCaQpPWlk1Q1NaRmtWOCsxdzFIYkN2RjA4UW9VMVFZSm1XdkFueVAzVFhzOUVhdER0Y0ZNL3RrbHRKaTdPaFlpVlB1Cko0QmVkZEo5TTEvNFJBVFdIcTBrb3VvdjNLdGVVeTFjUi85akJpYmo1UmZLUno4YmhDVUgxdTh3NXpSS3ZYNWwKN3dJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==")
+	if err != nil {
+		t.Errorf("isValidEthereumAddress() = false, want true")
+	}
+}
+
+func TestVerifySignature(t *testing.T) {
+	message := `{amount:100,to:me}`
+
+	pub, err := CheckPublicKey("LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFySHR5bW9jZnY4QmNmUWgwZ2xacwpNdnF3bzNWUUVEZzI5bmhuRjJJTitFV2RTWE5oblRsd3h0MFZTSExMV2c5OCtFbUtaTUFFZ0tHRExUd2FaMXh5Cmh1QTIzTFF3QlgvQ08rWjVyNDBuQ2U3QTk1NTFrNTJGL3ZKdVVrUFJHMUQwNEhYN0hMYkhYaVBoRlM5eDk4c3MKZHljY0hnejBqbU1DMENWN0tUR3N5L3VKZlFPV1diYUM2MXZIK0RKOURqeGMxMVdKY3pFaDFNTlYzVFFZS1pCaQpPWlk1Q1NaRmtWOCsxdzFIYkN2RjA4UW9VMVFZSm1XdkFueVAzVFhzOUVhdER0Y0ZNL3RrbHRKaTdPaFlpVlB1Cko0QmVkZEo5TTEvNFJBVFdIcTBrb3VvdjNLdGVVeTFjUi85akJpYmo1UmZLUno4YmhDVUgxdTh3NXpSS3ZYNWwKN3dJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==")
+	if err != nil {
+		t.Errorf("checkPublicKey() failed")
+	}
+
+	err = verifySignature(pub, message, "invalid_signature")
+	if err == nil {
+		t.Errorf("verifySignature() should have failed")
+	}
+
+	err = verifySignature(pub, message, "a29b2866302a020bd54bd174086692d76a76b9fc1970e0b42210965a39c25185d275201a147842d13d848a8ff0311ad1cd1c4aa88d5b6dc9433c88f104cec0d4344482d9436476bc88a3423d9b8b82e3318ab6e8b9b69168eb27c678d7a42ffbdd448d3d83f2d718f6e54155497fef11907047680325d56791344c973bc7811ececba38bdcd5d07a7f6144a4a1582d0d47bf8158dd57a1740df0c112ab50eaeac78e1ac079da35dddfd87c27f151728e2b5fbc320b6f35a9502b844284e0313c7bb6fe8a531bf3c8a52ff9c7906d527259de5330c53ef839e6fd12b380b50b9b63f916975719bf511a9c567913a323f9a11506d4fc74ec348579188841b1072f")
+	if err != nil {
+		t.Errorf("verifySignature() should have succeeded")
+	}
+
+}
