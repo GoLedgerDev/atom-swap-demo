@@ -9,7 +9,7 @@ if ! [ -x "$(command -v besu)" ]; then
 fi
 
 # Check if truffle is installed
-if ! [ -x "$(command -v besu)" ]; then
+if ! [ -x "$(command -v truffle)" ]; then
   echo "Error: truffle is not installed. Run: npm install -g truffle" >&2
   exit 1
 fi
@@ -114,6 +114,7 @@ echo ""
 echo "Running npm install..."
 cd contracts
 npm install
+npm install @openzeppelin/contracts
 sleep 5
 
 echo "Deploying contract..."
