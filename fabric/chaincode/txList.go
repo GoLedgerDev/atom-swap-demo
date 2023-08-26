@@ -17,6 +17,7 @@ var txList = []tx.Transaction{
 
 	// HTLC
 	txdefs.NewSwap,
+	txdefs.FinishSwap,
 
 	// TODO: implement these transactions
 	// txdefs.Allowance,
