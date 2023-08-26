@@ -22,7 +22,7 @@ var Wallet = assets.AssetType{
 			Required: true,
 			Tag:      "goTokenBalance",
 			Label:    "GoToken Balance",
-			DataType: "integer",
+			DataType: "string",
 		},
 	},
 }
