@@ -9,4 +9,6 @@ import (
 var txList = []tx.Transaction{
 	txdefs.Mint,
 	txdefs.Burn,
+	txdefs.Transfer,
+	txdefs.TotalSupply,
 }
