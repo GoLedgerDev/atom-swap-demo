@@ -67,17 +67,10 @@ var Transfer = tx.Transaction{
 		}
 
 		recipientWalletMap := map[string]interface{}{
-			"@assetType":     "wallet",
-			"address":        recipientWallet.Key(),
 			"goTokenBalance": strconv.Itoa(recipientCurrentAmount + amount),
 		}
 
-		rw, err := assets.NewAsset(recipientWalletMap)
-		if err != nil {
-			return nil, errors.WrapError(err, "error creating wallet asset")
-		}
-
-		recipientWalletInLedger, err := rw.Put(stub)
+		recipientWalletInLedger, err := recipientWallet.Update(stub, recipientWalletMap)
 		if err != nil {
 			return nil, errors.WrapError(err, "error putting wallet asset")
 		}
@@ -98,17 +91,10 @@ var Transfer = tx.Transaction{
 		}
 
 		senderWalletMap := map[string]interface{}{
-			"@assetType":     "wallet",
-			"address":        senderWallet.Key(),
 			"goTokenBalance": strconv.Itoa(senderCurrentAmount - amount),
 		}
 
-		sw, err := assets.NewAsset(senderWalletMap)
-		if err != nil {
-			return nil, errors.WrapError(err, "error creating wallet asset")
-		}
-
-		senderWalletInLedger, err := sw.Put(stub)
+		senderWalletInLedger, err := senderWallet.Update(stub, senderWalletMap)
 		if err != nil {
 			return nil, errors.WrapError(err, "error putting wallet asset")
 		}

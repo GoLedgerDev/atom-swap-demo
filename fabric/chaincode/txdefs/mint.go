@@ -60,17 +60,10 @@ var Mint = tx.Transaction{
 		}
 
 		walletMap := map[string]interface{}{
-			"@assetType":     "wallet",
-			"address":        wallet.Key(),
 			"goTokenBalance": strconv.Itoa(currentAmount + amount),
 		}
 
-		w, err := assets.NewAsset(walletMap)
-		if err != nil {
-			return nil, errors.WrapError(err, "error creating wallet asset")
-		}
-
-		walletInLedger, err := w.Put(stub)
+		walletInLedger, err := wallet.Update(stub, walletMap)
 		if err != nil {
 			return nil, errors.WrapError(err, "error putting wallet asset")
 		}
