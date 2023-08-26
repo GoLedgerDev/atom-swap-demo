@@ -18,9 +18,7 @@ var TotalSupply = tx.Transaction{
 	Description: "TotalSupply returns the total token supply",
 	Method:      "GET",
 
-	Args: []tx.Argument{
-		{},
-	},
+	Args: []tx.Argument{},
 	Routine: func(stub *sw.StubWrapper, req map[string]interface{}) ([]byte, errors.ICCError) {
 		var err error
 

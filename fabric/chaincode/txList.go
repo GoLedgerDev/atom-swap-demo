@@ -11,4 +11,12 @@ var txList = []tx.Transaction{
 	txdefs.Burn,
 	txdefs.Transfer,
 	txdefs.TotalSupply,
+	txdefs.BalanceOf,
+
+	// TODO: implement these transactions
+	// txdefs.Allowance,
+	// txdefs.Approve,
+	// txdefs.IncreaseAllowance,
+	// txdefs.DecreaseAllowance,
+	// txdefs.TransferFrom,
 }
