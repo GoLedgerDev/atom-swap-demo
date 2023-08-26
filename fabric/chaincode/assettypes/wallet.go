@@ -11,7 +11,13 @@ var Wallet = assets.AssetType{
 
 	Props: []assets.AssetProp{
 		{
-			// Primary key
+			Required: true,
+			IsKey:    true,
+			Tag:      "label",
+			Label:    "Label",
+			DataType: "string",
+		},
+		{
 			Required: true,
 			IsKey:    true,
 			Tag:      "address",

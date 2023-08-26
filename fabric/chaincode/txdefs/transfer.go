@@ -8,7 +8,6 @@ import (
 	"github.com/goledgerdev/cc-tools/errors"
 	sw "github.com/goledgerdev/cc-tools/stubwrapper"
 	tx "github.com/goledgerdev/cc-tools/transactions"
-	"github.com/goledgerdev/token-cc/chaincode/utils"
 )
 
 // POST Method
@@ -31,20 +30,20 @@ var Transfer = tx.Transaction{
 			Tag:         "to",
 			Label:       "To",
 			Description: "Address of the account that will receive the transferred tokens",
-			DataType:    "string",
+			DataType:    "->wallet",
 		},
 		{
 			Required:    true,
 			Tag:         "from",
 			Label:       "From",
 			Description: "Address of the account that will send the transferred tokens",
-			DataType:    "string",
+			DataType:    "->wallet",
 		},
 	},
 	Routine: func(stub *sw.StubWrapper, req map[string]interface{}) ([]byte, errors.ICCError) {
 		amountStr, _ := req["amount"].(string)
-		to, _ := req["to"].(string)
-		from, _ := req["from"].(string)
+		recipientWallet, _ := req["to"].(assets.Key)
+		senderWallet, _ := req["from"].(assets.Key)
 
 		// check if amount is valid integer
 		amount, err := strconv.Atoi(amountStr)
@@ -56,49 +55,20 @@ var Transfer = tx.Transaction{
 			return nil, errors.WrapError(nil, "invalid amount, send a positive integer")
 		}
 
-		// check if address is valid
-		_, err = utils.CheckPublicKey(to)
+		// get current amount
+		recipientWalletAsset, err := recipientWallet.Get(stub)
 		if err != nil {
-			return nil, errors.WrapError(nil, "invalid recipient address")
+			return nil, errors.WrapError(err, "error getting wallet asset")
 		}
 
-		// check if address is valid
-		_, err = utils.CheckPublicKey(from)
-		if err != nil {
-			return nil, errors.WrapError(nil, "invalid sender address")
-		}
-
-		// retrieve recipient recipientWallet
-		recipientWallet, err := assets.NewKey(map[string]interface{}{
-			"@assetType": "wallet",
-			"address":    to,
-		})
-
-		// check if wallet exists
-		exists, err := recipientWallet.ExistsInLedger(stub)
-		if err != nil {
-			return nil, errors.WrapError(err, "error checking if wallet exists")
-		}
-
-		recipientCurrentAmount := 0
-		if exists {
-			// get current amount
-			recipientWalletAsset, err := recipientWallet.Get(stub)
-			if err != nil {
-				return nil, err
-			}
-
-			c, nerr := strconv.Atoi(recipientWalletAsset.GetProp("goTokenBalance").(string))
-			if nerr != nil {
-				return nil, errors.WrapError(err, "error converting current amount to integer")
-			}
-
-			recipientCurrentAmount = c
+		recipientCurrentAmount, nerr := strconv.Atoi(recipientWalletAsset.GetProp("goTokenBalance").(string))
+		if nerr != nil {
+			return nil, errors.WrapError(err, "error converting current amount to integer")
 		}
 
 		recipientWalletMap := map[string]interface{}{
 			"@assetType":     "wallet",
-			"address":        to,
+			"address":        recipientWallet.Key(),
 			"goTokenBalance": strconv.Itoa(recipientCurrentAmount + amount),
 		}
 
@@ -112,32 +82,15 @@ var Transfer = tx.Transaction{
 			return nil, errors.WrapError(err, "error putting wallet asset")
 		}
 
-		// retrieve sender senderWallet
-		senderWallet, err := assets.NewKey(map[string]interface{}{
-			"@assetType": "wallet",
-			"address":    from,
-		})
-
-		// check if wallet exists
-		exists, err = senderWallet.ExistsInLedger(stub)
+		// get current amount
+		senderWalletAsset, err := senderWallet.Get(stub)
 		if err != nil {
-			return nil, errors.WrapError(err, "error checking if wallet exists")
+			return nil, errors.WrapError(err, "error getting wallet asset")
 		}
 
-		senderCurrentAmount := 0
-		if exists {
-			// get current amount
-			senderWalletAsset, err := senderWallet.Get(stub)
-			if err != nil {
-				return nil, err
-			}
-
-			c, nerr := strconv.Atoi(senderWalletAsset.GetProp("goTokenBalance").(string))
-			if nerr != nil {
-				return nil, errors.WrapError(err, "error converting current amount to integer")
-			}
-
-			senderCurrentAmount = c
+		senderCurrentAmount, nerr := strconv.Atoi(senderWalletAsset.GetProp("goTokenBalance").(string))
+		if nerr != nil {
+			return nil, errors.WrapError(err, "error converting current amount to integer")
 		}
 
 		if senderCurrentAmount < amount {
@@ -146,7 +99,7 @@ var Transfer = tx.Transaction{
 
 		senderWalletMap := map[string]interface{}{
 			"@assetType":     "wallet",
-			"address":        from,
+			"address":        senderWallet.Key(),
 			"goTokenBalance": strconv.Itoa(senderCurrentAmount - amount),
 		}
 
