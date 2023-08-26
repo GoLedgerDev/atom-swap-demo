@@ -49,6 +49,7 @@ var CreateWallet = tx.Transaction{
 			"address":        address,
 			"label":          label,
 			"goTokenBalance": "0",
+			"blockedBalance": "0",
 		})
 
 		if err != nil {

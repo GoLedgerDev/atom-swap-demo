@@ -7,12 +7,16 @@ import (
 )
 
 var txList = []tx.Transaction{
+	// Token
 	txdefs.CreateWallet,
 	txdefs.Mint,
 	txdefs.Burn,
 	txdefs.Transfer,
 	txdefs.TotalSupply,
 	txdefs.BalanceOf,
+
+	// HTLC
+	txdefs.NewSwap,
 
 	// TODO: implement these transactions
 	// txdefs.Allowance,

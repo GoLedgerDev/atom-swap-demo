@@ -30,5 +30,11 @@ var Wallet = assets.AssetType{
 			Label:    "GoToken Balance",
 			DataType: "string",
 		},
+		{
+			Required: true,
+			Tag:      "blockedBalance",
+			Label:    "Blocked Balance",
+			DataType: "string",
+		},
 	},
 }

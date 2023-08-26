@@ -8,4 +8,5 @@ import (
 var assetTypeList = []assets.AssetType{
 	assettypes.Wallet,
 	assettypes.TotalSupply,
+	assettypes.HashTimeLock,
 }
