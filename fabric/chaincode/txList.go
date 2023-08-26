@@ -7,6 +7,7 @@ import (
 )
 
 var txList = []tx.Transaction{
+	txdefs.CreateWallet,
 	txdefs.Mint,
 	txdefs.Burn,
 	txdefs.Transfer,
