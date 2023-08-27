@@ -71,21 +71,32 @@ balance.toNumber()
 
 ## Setup Fabric accounts for the demo
 
-In the `fabric/keys` directory there are public and private keys for Alice and Bob. 
+TODO: remove the keys and use the same Ethereum address for the Fabric account. No signing is done in the chaincode, so it is not necessary to have the private key.
+
+For the representation of the addresses of Bob and Alice we will use the same ones as in the Besu network, for simplicity. 
 ```
-keys
-├── alice.key
-├── alice.pub
-├── bob.key
-└── bob.pub
+Alice: 0xfe3b557e8fb62b89f4916b721be55ceb828dbd73
+Bob: 0x627306090abaB3A6e1400e9345bC60c78a8BEf57
 ```
 
-Now, we will mint tokens for Bob. To do that, you can use GoInitus by accessing `http://localhost:8080` in your browser or you can run the following `curl` command:
+We will create the wallets for Alice and Bob. To do that, you can use GoInitus by accessing `http://localhost:8080` in your browser or you can run the following `curl` command:
+```bash
+ curl -X \
+ POST "http://localhost:80/api/invoke/createWallet" -H 'Content-Type: application/json' \
+ -H 'cache-control: no-cache' \
+  -d '{"address":"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73","label":"Alice"}'
+
+ curl -X \
+ POST "http://localhost:80/api/invoke/createWallet" -H 'Content-Type: application/json' \
+ -H 'cache-control: no-cache' \
+  -d '{"address":"0x627306090abaB3A6e1400e9345bC60c78a8BEf57","label":"Bob"}'
+```
+Now, we will mint 100 tokens for Bob:
 ```bash
  curl -X \
  POST "http://localhost:80/api/invoke/mint" -H 'Content-Type: application/json' \
  -H 'cache-control: no-cache' \
-  -d '{"amount":"100","to":"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFySHR5bW9jZnY4QmNmUWgwZ2xacwpNdnF3bzNWUUVEZzI5bmhuRjJJTitFV2RTWE5oblRsd3h0MFZTSExMV2c5OCtFbUtaTUFFZ0tHRExUd2FaMXh5Cmh1QTIzTFF3QlgvQ08rWjVyNDBuQ2U3QTk1NTFrNTJGL3ZKdVVrUFJHMUQwNEhYN0hMYkhYaVBoRlM5eDk4c3MKZHljY0hnejBqbU1DMENWN0tUR3N5L3VKZlFPV1diYUM2MXZIK0RKOURqeGMxMVdKY3pFaDFNTlYzVFFZS1pCaQpPWlk1Q1NaRmtWOCsxdzFIYkN2RjA4UW9VMVFZSm1XdkFueVAzVFhzOUVhdER0Y0ZNL3RrbHRKaTdPaFlpVlB1Cko0QmVkZEo5TTEvNFJBVFdIcTBrb3VvdjNLdGVVeTFjUi85akJpYmo1UmZLUno4YmhDVUgxdTh3NXpSS3ZYNWwKN3dJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="}'
+  -d '{"amount":"100","to":{"@assetType":"wallet","@key":"wallet:20e5d9cf-f138-5e56-b921-ed05ce10c7ba"}}'
 ```
 
 ## The Demo itself

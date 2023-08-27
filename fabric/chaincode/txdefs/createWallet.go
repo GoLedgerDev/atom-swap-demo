@@ -1,13 +1,14 @@
 package txdefs
 
 import (
+	"encoding/hex"
 	"encoding/json"
+	"strings"
 
 	"github.com/goledgerdev/cc-tools/assets"
 	"github.com/goledgerdev/cc-tools/errors"
 	sw "github.com/goledgerdev/cc-tools/stubwrapper"
 	tx "github.com/goledgerdev/cc-tools/transactions"
-	"github.com/goledgerdev/token-cc/chaincode/utils"
 )
 
 // POST Method
@@ -38,10 +39,17 @@ var CreateWallet = tx.Transaction{
 		address, _ := req["address"].(string)
 		label, _ := req["label"].(string)
 
-		// check if address is valid
-		_, err := utils.CheckPublicKey(address)
+		if !strings.HasPrefix(address, "0x") {
+			return nil, errors.WrapError(nil, "invalid address, must start with 0x")
+		}
+
+		// remove 0x prefix
+		addressNoPrefix := address[2:]
+
+		// check if address is valid hex
+		_, err := hex.DecodeString(addressNoPrefix)
 		if err != nil {
-			return nil, errors.WrapError(err, "invalid address")
+			return nil, errors.WrapError(err, "invalid address, must be valid hex")
 		}
 
 		wallet, err := assets.NewAsset(map[string]interface{}{
