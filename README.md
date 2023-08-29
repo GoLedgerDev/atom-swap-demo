@@ -170,3 +170,7 @@ Our atom swap is complete!
 * How to make it scalable?
 * Where can it be used other than crypto exchange? 
   * Car ownership transfer, where a Fabric network holds car documents and a Besu network holds the fiat currency
+
+# Improvements to be made
+
+1. Implement a routine to check timelock expiration on Fabric's side
