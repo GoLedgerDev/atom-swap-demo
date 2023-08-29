@@ -15,7 +15,7 @@ require (
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/stretchr/testify v1.8.0 // indirect
-	golang.org/x/crypto v0.0.0-20210920023735-84f357641f63 // indirect
+	golang.org/x/crypto v0.0.0-20210920023735-84f357641f63
 	golang.org/x/net v0.0.0-20210917221730-978cfadd31cf // indirect
 	golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069 // indirect
 	golang.org/x/text v0.3.7 // indirect
