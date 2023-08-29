@@ -75,7 +75,7 @@ balance.toNumber()
 For the representation of the addresses of Bob and Alice we will use the same ones as in the Besu network, for simplicity. 
 ```
 Alice: 0xfe3b557e8fb62b89f4916b721be55ceb828dbd73
-Bob: 0x627306090abaB3A6e1400e9345bC60c78a8BEf57
+Bob: 0xf17f52151EbEF6C7334FAD080c5704D77216b732
 ```
 
 We will create the wallets for Alice and Bob. To do that, you can use GoInitus by accessing `http://localhost:8080` in your browser or you can run the following `curl` command:
@@ -88,14 +88,14 @@ We will create the wallets for Alice and Bob. To do that, you can use GoInitus b
  curl -X \
  POST "http://localhost:80/api/invoke/createWallet" -H 'Content-Type: application/json' \
  -H 'cache-control: no-cache' \
-  -d '{"address":"0x627306090abaB3A6e1400e9345bC60c78a8BEf57","label":"Bob"}'
+  -d '{"address":"0xf17f52151EbEF6C7334FAD080c5704D77216b732","label":"Bob"}'
 ```
 Now, we will mint 100 tokens for Bob:
 ```bash
  curl -X \
  POST "http://localhost:80/api/invoke/mint" -H 'Content-Type: application/json' \
  -H 'cache-control: no-cache' \
-  -d '{"amount":"100","to":{"@assetType":"wallet","@key":"wallet:20e5d9cf-f138-5e56-b921-ed05ce10c7ba"}}'
+  -d '{"amount":"100","to":{"@assetType":"wallet","@key":"wallet:3f5d3ca3-ecd8-5067-b672-72f8bf9f2150"}}'
 ```
 
 ## The Demo itself
