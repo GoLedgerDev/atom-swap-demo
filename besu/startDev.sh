@@ -146,4 +146,4 @@ echo "Contract address: $CONTRACT_ADDRESS"
 
 sed "s/<TOKEN_CONTRACT_ADDRESS>/$CONTRACT_ADDRESS/g" migrations/templates/2_deploy_contract.js > migrations/2_deploy_contract.js
 
-truffle migrate --f 2 --to 2 --network development
+# truffle migrate --f 2 --to 2 --network development

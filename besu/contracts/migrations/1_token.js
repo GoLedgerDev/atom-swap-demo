@@ -1,5 +1,5 @@
-var GoLedgerToken = artifacts.require("./GoLedgerToken.sol");
+var SimpleStorage = artifacts.require("./SimpleStorage.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(GoLedgerToken, "900000000000000000", {gas: 5000000});
+  deployer.deploy(SimpleStorage, "900000000000000000", {gas: 5000000});
 };
